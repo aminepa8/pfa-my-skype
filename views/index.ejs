@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MySkype</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;500;600&family=Josefin+Slab&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- <link rel="stylesheet" href="/css/main.css" /> -->
+    <!-- <link rel="stylesheet" href="/css/styles.css" /> -->
+  </head>
+
+  <body>
+    <h1>My skype</h1>
+    <div class="container">
+        <div class="row">
+           <div class="local_div col-sm-5" id="div1">
+              <div class="card img-fluid" style="width:500px"> 
+                   <video id="localVideo" class="card-img-top" autoplay muted playsinline></video>	
+                 <div class="card-img-overlay">
+                    <h4 class="card-title">You</h4>
+                    <div
+                       onclick="muteUnmute()"
+                       class="main_controls_button main_mute_button"
+                       >
+                       <i class="fas fa-microphone"></i>
+                    </div>
+                    <div
+                       onclick="playStop()"
+                       class="main_controls_button main_video_button"
+                       >
+                       <i class="fas fa-video"></i>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           
+           <div class="local_div col-sm-5" id="div1">
+              <div class="card img-fluid" style="width:500px">
+                  <video id="remoteVideo" class="card-img-top" autoplay playsinline></video>
+                 <div class="card-img-overlay">
+                    <h4 class="card-title">Your Friend</h4>
+                    
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+
+    <!-- Import SocketIO for signalling -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Import WebRTC adapter for compatibility with all the browsers  -->
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+    <!-- Import TURN config -->
+    <script src="js\config.js"></script>
+
+    <!-- Import script containing WebRTC related functions -->
+    <script src="js\main.js"></script>
+  </body>
+</html>
