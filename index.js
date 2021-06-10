@@ -86,7 +86,12 @@ io.sockets.on('connection', function(socket) {
 	socket.on('bye', function(){
 	  console.log('received bye');
 	});
-  
+	
+
+	//Chat 
+	socket.on('messageChat', ({roomname,username,message}) => {
+		io.to(roomname).emit('createMessage', {message:message,username:username})
+	})
   });
 
   

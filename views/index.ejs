@@ -21,8 +21,8 @@
         <div class="main_left">
             <div class="main_videos">
                 <div id='video-grid'>
-                   <video id="localVideo" class="card-img-top" autoplay muted playsinline></video>
-                   <video id="remoteVideo" class="card-img-top" autoplay playsinline></video>
+                   <video id="localVideo" class=" col-md-6 card-img-top" autoplay muted playsinline></video>
+                   <video id="remoteVideo" class=" col-md-6 card-img-top" autoplay playsinline></video>
                 </div>
             </div>
             <div class="main_controls">
@@ -54,7 +54,7 @@
 
                 <div class="main_controls_block">
                     
-                    <div class="main_controls_button"> 
+                    <div class="main_controls_button" onclick="hangup()"> 
                         <span class="leave_meeting">Leave Meeting</span>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
         </div>
         <div class="main_right">
             <div class="main_header">
-                <h6>Chat</h6>
+                <h6>Chat Room ID  : <span style="color:red;" id="chatRoomName"></span></h6>
             </div>
             <div class="main_chat_window">
                 <ul class="messages">

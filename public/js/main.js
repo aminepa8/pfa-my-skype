@@ -10,7 +10,7 @@ var remoteStream;
 var turnReady;
 
 //Initialize turn/stun server here
-var pcConfig = turnConfig;
+var pcConfig = null;//turnConfig;
 
 var localStreamConstraints = {
     audio: true,
@@ -23,6 +23,8 @@ var localStreamConstraints = {
 
 // Prompting for room name:
 var room = prompt('Enter room name:');
+var username = prompt('Enter a username:');
+$( "#chatRoomName" ).append( room);
 
 //Initializing socket.io
 var socket = io.connect();
@@ -209,12 +211,15 @@ function hangup() {
   console.log('Hanging up.');
   stop();
   sendMessage('bye',room);
+  window.location.href ="/";
 }
 
 function handleRemoteHangup() {
   console.log('Session terminated.');
   stop();
   isInitiator = false;
+  $("#remoteVideo").hide();
+  document.querySelector('#remoteVideo').insertAdjacentHTML('afterend', "<img class='col-md-6' src='https://m.media-amazon.com/images/I/51b4znMy09L._SS500_.jpg'>");
 }
 
 function stop() {
@@ -275,3 +280,23 @@ const playStop = () => {
       localStream.getVideoTracks()[0].enabled = true;
   }
 }
+
+
+//Chat Section
+const scrollToBottom = () => {
+  let d = $('main_chat_window');
+  d.scrollTop(d.prop("scrollHeight"));
+}
+let text = $('input');
+    $('html').keydown(e => {
+        if (e.which == 13 && text.val().length !== 0) {
+            socket.emit('messageChat',{ roomname: this.room,username: this.username, message: text.val() } );
+            console.log(text.val());
+            text.val('')
+        }
+    });
+
+    socket.on('createMessage', ({username,message}) => {
+        $('ul').append(`<li class="message"><b>user</b><br />${username} : ${message}</li>`)
+        scrollToBottom();
+    })
