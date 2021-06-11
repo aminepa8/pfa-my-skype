@@ -226,7 +226,9 @@ function handleRemoteHangup() {
 
 function stop() {
   isStarted = false;
-  pc.close();
+  if(pc !==null){
+    pc.close();
+  }
   pc = null;
 }
 
