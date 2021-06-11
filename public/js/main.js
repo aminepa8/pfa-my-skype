@@ -106,6 +106,7 @@ navigator.mediaDevices.getUserMedia(localStreamConstraints)
   alert('getUserMedia() error: ' + e.name);
 });
 
+
 //If found local stream
 function gotStream(stream) {
   console.log('Adding local stream.');
@@ -114,6 +115,10 @@ function gotStream(stream) {
   sendMessage('got user media', room);
   if (isInitiator) {
     maybeStart();
+        //Mute and hide video after getting UserMedia
+    console.log("Wee3");
+    playStop();
+    muteUnmute();
   }
 }
 
