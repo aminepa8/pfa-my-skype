@@ -22,8 +22,10 @@ var localStreamConstraints = {
 //var room = 'foo';
 
 // Prompting for room name:
-var room = prompt('Enter room name:');
-var username = prompt('Enter a username:');
+var link =window.location.pathname;
+var arrayParam = link.split("/");
+var room = arrayParam[2]; //prompt('Enter room name:');
+var username =arrayParam[3];   //prompt('Enter a username:');
 $( "#chatRoomName" ).append( room);
 
 //Initializing socket.io

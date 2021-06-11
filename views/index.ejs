@@ -1,93 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
+        color: white;
+        font-family: "Muli", sans-serif;
+      }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zoom-Clone</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
+      .homepage {
+        width: 400px;
+        height: 400px;
+        background-color: #2d343e;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        justify-content: space-evenly;
+        border-radius: 5px;
+      }
+      .homepage input {
+        height: 50px;
+        width: 80%;
+        text-decoration: none;
+        background-color: #404450;
+        border: none;
+        padding-left: 1rem;
+        border-radius: 5px;
+      }
+      .homepage input:focus {
+        outline: none;
+      }
+      .homepage button {
+        font-size: 1rem;
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        width: 100px;
+        border: none;
+        background-color: #ffac41;
+        border-radius: 5px;
+        color: black;
+      }
+      .homepage button:hover {
+        cursor: pointer;
+      }
 
-<body>
-
-
-    <div class="main">
-        <div class="main_left">
-            <div class="main_videos">
-                <div id='video-grid'>
-                   <video id="localVideo" class=" col-md-6 card-img-top" autoplay muted playsinline></video>
-                   <video id="remoteVideo" class=" col-md-6 card-img-top" autoplay playsinline></video>
-                </div>
-            </div>
-            <div class="main_controls">
-                <div class="main_controls_block">
-                    <div onclick="muteUnmute()" class="main_controls_button main_mute_button">
-                        <i class="fas fa-microphone"></i>
-                        <span>Mute</span>
-                    </div>
-                    <div onclick="playStop()" class="main_controls_button main_video_button"> 
-                        <i class="fas fa-video"></i>
-                        <span>Stop Video</span>
-                    </div>
-                </div>
-
-                <div class="main_controls_block">
-                    <div class="main_controls_button">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Security</span>
-                    </div>
-                    <div class="main_controls_button"> 
-                        <i class="fas fa-user-friends"></i>
-                        <span>Participants</span>
-                    </div>
-                    <div class="main_controls_button">
-                        <i class="fas fa-comment-alt"></i>
-                        <span>Chat</span>
-                    </div>
-                </div>
-
-                <div class="main_controls_block">
-                    
-                    <div class="main_controls_button" onclick="hangup()"> 
-                        <span class="leave_meeting">Leave Meeting</span>
-                    </div>
-                </div>
-
-            </div>
+      .App {
+        width: 100%;
+        height: 100vh;
+        background-color: #282b34;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .App .right {
+        flex: 2 1;
+      }
+      .App .left {
+        flex: 1 1;
+      }
+    </style>
+    <script>
+      function Join() {
+        var roomName = document.getElementById("roomName").value;
+        var username = document.getElementById("username").value;
+        if(roomName =="" || username==""){
+            alert("Please fill all the fileds !!");
+        }else{
+            window.location = '/chat/'+roomName+'/'+username;
+        }
+        
+      }
+    </script>
+    <title>Home</title>
+  </head>
+  <body class="vsc-initialized" cz-shortcut-listen="true">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="App">
+        <div class="homepage">
+          <h1>Welcome 🙏</h1>
+          <input id="username" placeholder="Enter your username" value="" />
+          <input id="roomName" placeholder="Enter room name " />
+          <button onclick="Join()">Join</button>
         </div>
-        <div class="main_right">
-            <div class="main_header">
-                <h6>Chat Room ID  : <span style="color:red;" id="chatRoomName"></span></h6>
-            </div>
-            <div class="main_chat_window">
-                <ul class="messages">
-
-                </ul>
-            </div>
-            <div class="main_message_container">
-                <input id="chat_message" type="text" placeholder="Type message here...">
-            </div>
-        </div>
-
+      </div>
     </div>
-    
-    <!-- Import SocketIO for signalling -->
-    <script src="/socket.io/socket.io.js"></script>
-
-    <!-- Import WebRTC adapter for compatibility with all the browsers  -->
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-
-    <!-- Import TURN config -->
-    <script src="js\config.js"></script>
-
-    <!-- Import script containing WebRTC related functions -->
-    <script src="js\main.js"></script>
-</body>
-
+  </body>
 </html>
