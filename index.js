@@ -23,6 +23,11 @@ app.use(express.static('public'))
 app.get("/", function(req, res){
 	res.render("index.ejs");
 });
+
+//Test NewChat style
+app.get("/chatNew/:roomName/:username", function(req, res){
+	res.render("chatNew.ejs"),{roomName: req.params.roomName, username: req.params.username};
+});
 app.get("/chat/:roomName/:username", function(req, res){
 	res.render("chat.ejs"),{roomName: req.params.roomName, username: req.params.username};
 });

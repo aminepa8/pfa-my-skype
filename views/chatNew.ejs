@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="\css\bootstrap.min.css">
+	
+     <!-- Fontawesome CSS -->
+     <link rel="stylesheet" href="\css\fontawesome.min.css">
+     <link rel="stylesheet" href="\css\all.min.css">
+ 
+     <!-- Swiper CSS -->
+     <link rel="stylesheet" href="\css\swiper.min.css">
+    <link rel="stylesheet" href="\css\style.css">
+    <title>Document</title>
+</head>
+<body class="darkmode vsc-initialized" cz-shortcut-listen="true">
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+	
+        <!-- content -->
+        <div class="content main_content">
+
+            <!-- Left Sidebar Menu -->
+            <div class="sidebar-menu">
+                <div class="logo-col">
+                    <a href="index.html"></a>
+                </div>
+                <div class="menus-col">
+                    <div class="chat-menus">
+                        <ul>
+                            <li>
+                                <a href="index.html" class="chat-unread blue">
+                                    <span class="material-icons">message</span>
+                                    <span>Chats</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="settings.html" class="chat-unread">
+                                    <span class="material-icons">settings</span>
+                                    <span>Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bottom-menus">
+                        <ul>
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#add-new-group">
+                                    
+                                    <span>Add Groups</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="add-contacts-btn" data-toggle="modal" data-target="#add-contact">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Contacts</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" id="dark-mode-toggle" class="dark-mode-toggle">
+                                    <i class="far fa-moon"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="chat-profile-icon" data-toggle="dropdown">
+                                    
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="#" class="dropdown-item dream_profile_menu">Edit Profile <span class="edit-profile-icon"><i class="fas fa-edit"></i></span></a>
+                                    <a href="#" class="dropdown-item">Profile <span class="profile-icon-col"><i class="fas fa-id-card-alt"></i></span></a>
+                                    <a href="settings.html" class="dropdown-item">Settings <span class="material-icons">settings</span></a>
+                                    <a href="archived.html" class="dropdown-item">Archived <span class="material-icons">flag</span></a>
+                                    <a href="login-email.html" class="dropdown-item">Logout <span class="material-icons">power_settings_new</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /Left Sidebar Menu -->
+
+            <!-- Chat -->
+            <div class="chat video-screen" id="middle">
+                <div class="chat-header">
+                    <div class="user-details">
+                        <div class="d-lg-none ml-2">
+                            <ul class="list-inline mt-2 mr-2">
+                                <li class="list-inline-item">
+                                    <a class="text-muted px-0 left_side" href="index.html" data-chat="open">
+                                        <i class="fas fa-arrow-left"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h5 id="chatusername">Username : </h5>
+                        </div>
+                    </div>
+                    <div class="chat-options">
+                        <ul class="list-inline">
+                            <li class="list-inline-item in-a-call d-flex align-items-center mr-5">
+                                <span class="icon-call"><i class="fas fa-comments"></i></span> 
+                                <span class="call-text" id="chatRoomName">Room : </span>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div class="chat-body pt-4 pb-0">
+                    <div class="video-screen-inner ">
+                        <video id="remoteVideo"  autoplay  playsinline></video>
+                        <div class="call-user-avatar">
+                            <div class="avatar-col">
+                                <video id="localVideo"  autoplay muted playsinline></video>
+
+                            </div>
+                        </div>
+                        <div class="record-time">
+                            <span>
+                                <label id="minutes">00</label>
+                                <label id="colon">:</label>
+                                <label id="seconds">00</label>
+                            </span>
+                        </div>
+                        <div class="video-call-action">
+                            <ul>
+                                <li><a href="#" onclick="muteUnmute()"><span  id="audioControl" class="material-icons">mic_off</span></a></li>
+                                <li><a href="#" onclick="hangup()"class="call-end"><span class="material-icons">call_end</span></a></li>
+                                <li><a href="#" onclick="playStop()" ><span id="videoControl" class="material-icons">videocam_off</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Chat -->
+
+            <!-- Right sidebar -->
+            <div class="right-sidebar right_sidebar_profile video-right-sidebar" id="middle1" style="">
+                <div class="chat p-0">
+                    <div class="right-sidebar-wrap active">
+                        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 552px;"><div class="slimscroll" style="overflow: hidden; width: 100%; height: 642px;">
+                            <div class="left-chat-title d-flex justify-content-between align-items-center p-3 with-bg">
+                                <div class="chat-title">
+                                    <h4>Chat</h4>
+                                </div>
+                                <div class="contact-close_call text-right">
+                                    <a href="#" class="close_profile close_profile4">
+                                        <span class="material-icons">close</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="chat-body pt-3">
+                                <div class="messages">
+                                    <div class="chats">
+                                        
+                                        <div class="chat-content">
+                                            <div class="message-content">
+                                                Good morning.....
+                                                <div class="chat-time">
+                                                    <div>
+                                                        <div class="time"><i class="fas fa-clock"></i> 10:00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="chat-profile-name">
+                                                <h6>Doris Brown</h6>
+                                            </div>
+                                        </div>
+                                        <div class="chat-action-btns ml-3">
+                                            <div class="chat-action-col">
+                                                <a class="#" href="#" data-toggle="dropdown">
+                                                    
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item dream_profile_menu">Copy <span><i class="far fa-copy"></i></span></a>
+                                                    <a href="#" class="dropdown-item">Save <span class="material-icons">save</span></a>
+                                                    <a href="#" class="dropdown-item">Forward <span><i class="fas fa-share"></i></span></a>
+                                                    <a href="#" class="dropdown-item">Delete <span><i class="far fa-trash-alt"></i></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chats chats-right">
+                                        <div class="chat-content">
+                                            <div class="message-content">
+                                                Wow Thats Great
+                                                <div class="chat-time">
+                                                    <div>
+                                                        <div class="time"><i class="fas fa-clock"></i> 10:00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="chat-profile-name text-right">
+                                                <h6>Alexandr</h6>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="chat-action-btns mr-2">
+                                            
+                                            <div class="chat-read-col">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chats">
+                                        
+                                        <div class="chat-content">
+                                            <div class="message-content">
+                                                Good morning.....
+                                                <div class="chat-time">
+                                                    <div>
+                                                        <div class="time"><i class="fas fa-clock"></i> 10:00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="chat-profile-name">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="chat-action-btns ml-3">
+                                            <div class="chat-action-col">
+                                                
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a href="#" class="dropdown-item dream_profile_menu">Copy <span><i class="far fa-copy"></i></span></a>
+                                                    <a href="#" class="dropdown-item">Save <span class="material-icons">save</span></a>
+                                                    <a href="#" class="dropdown-item">Forward <span><i class="fas fa-share"></i></span></a>
+                                                    <a href="#" class="dropdown-item">Delete <span><i class="far fa-trash-alt"></i></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chats chats-right">
+                                        <div class="chat-content">
+                                            <div class="message-content">
+                                                Wow Thats Great
+                                                <div class="chat-time">
+                                                    <div>
+                                                        <div class="time"><i class="fas fa-clock"></i> 10:00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="chat-profile-name text-right">
+                                                <h6>Alexandr</h6>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="chat-action-btns mr-2">
+                                            
+                                            
+                                        </div>
+                                    </div>                         
+                                </div>
+                            </div>
+                        </div><div class="slimScrollBar" style="background: rgb(204, 204, 204) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 151px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 642px;"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+                        <div class="chat-footer pt-0">
+                            <form>
+                                
+                                
+                                <input type="text" class="form-control chat_form" placeholder="Enter Message.....">
+                                <div class="form-buttons">
+                                    <button class="btn send-btn" type="submit">
+                                        <span class="material-icons">send</span>
+                                    </button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right sidebar -->
+
+        </div> 
+        <!-- /Content -->
+
+        <!-- Video Call -->
+        <div class="modal fade" id="video_call" role="document">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content voice_content">
+                    <div class="modal-body voice_body">
+                        <div class="call-box incoming-box">
+                            <div class="call-wrapper">
+                                <div class="call-inner">
+                                    <div class="call-user">
+                                        <img alt="User Image" src="https://dreamschat.dreamguystech.com/template2/assets/img/avatar/avatar-8.jpg" class="call-avatar">
+                                        <h4 id="chatusername"> <span>video calling</span>
+                                        </h4>
+                                    </div>
+                                    <div class="call-items">
+                                        <a href="#" class="btn call-item call-end" data-dismiss="modal">
+                                            <span class="material-icons">close</span>
+                                        </a>
+                                        <a href="#" class="btn call-item call-start" data-dismiss="modal">
+                                            <i class="fas fa-video"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Video Call -->
+
+        <!-- Voice Call -->
+        <div class="modal fade" id="voice_call" role="document">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content voice_content">
+                    <div class="modal-body voice_body">
+                        <div class="call-box incoming-box">
+                            <div class="call-wrapper">
+                                <div class="call-inner">
+                                    <div class="call-user">
+                                        <img alt="User Image" src="https://dreamschat.dreamguystech.com/template2/assets/img/avatar/avatar-8.jpg" class="call-avatar">
+                                        <h4>Brietta Blogg <span>voice calling</span>
+                                        </h4>
+                                    </div>
+                                    <div class="call-items">
+                                        <a href="#" class="btn call-item call-end" data-dismiss="modal">
+                                            <span class="material-icons">close</span>
+                                        </a>
+                                        <a href="#" class="btn call-item call-start" data-dismiss="modal">
+                                            <i class="fas fa-video"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Voice Call -->
+		
+    </div>
+
+	<!-- jQuery -->
+    <script src="\js\jquery-3.5.1.min.js"></script>
+	
+	<!-- Bootstrap Core JS -->
+    <script src="\js\popper.min.js"></script>
+    <script src="\js\bootstrap.min.js"></script>
+	
+	<!-- Slimscroll JS -->
+    <script src="\js\jquery.slimscroll.min.js"></script>
+
+    <!-- Swiper JS -->
+	<script src="\js\swiper.min.js"></script>
+
+    <!-- Jquery Ui JS -->
+    <script src="\js\jquery-ui.min.js"></script>
+
+	<!-- Custom JS -->
+    <script src="\js\script.js"></script>
+
+        <!-- Import SocketIO for signalling -->
+        <script src="/socket.io/socket.io.js"></script>
+
+        <!-- Import WebRTC adapter for compatibility with all the browsers  -->
+        <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    
+        <!-- Import TURN config -->
+        <script src="\js\config.js"></script>
+    
+        <!-- Import script containing WebRTC related functions -->
+        <script src="\js\main.js"></script>
+
+        <!--Meeting Timer-->
+        <script type="text/javascript">
+            var minutesLabel = document.getElementById("minutes");
+            var secondsLabel = document.getElementById("seconds");
+            var totalSeconds = 0;
+            setInterval(setTime, 1000);
+    
+            function setTime()
+            {
+                ++totalSeconds;
+                secondsLabel.innerHTML = pad(totalSeconds%60);
+                minutesLabel.innerHTML = pad(parseInt(totalSeconds/60));
+            }
+    
+            function pad(val)
+            {
+                var valString = val + "";
+                if(valString.length < 2)
+                {
+                    return "0" + valString;
+                }
+                else
+                {
+                    return valString;
+                }
+            }
+        </script>
+</body>
+</html>

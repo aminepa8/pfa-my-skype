@@ -27,6 +27,7 @@ var arrayParam = link.split("/");
 var room = arrayParam[2]; //prompt('Enter room name:');
 var username =arrayParam[3];   //prompt('Enter a username:');
 $( "#chatRoomName" ).append( room);
+$( "#chatusername" ).append( username);
 
 //Initializing socket.io
 var socket = io.connect();
@@ -239,17 +240,23 @@ function stop() {
 
 //Control
 const setMuteButton = () => {
+  /*
   const html = `
   <i class="fas fa-microphone"></i>
   <span>Mute</span>`
   $('.main_mute_button').html(html);
+  */
+  $('#audioControl').html("mic");
 }
 
 const setUnmuteButton = () => {
+  /*
   const html = `
   <i class="unmute fas fa-microphone-slash"></i>
   <span>Ummte</span>`
   $('.main_mute_button').html(html);
+  */
+  $('#audioControl').html("mic_off");
 }
 
 const muteUnmute = () => {
@@ -259,33 +266,40 @@ const muteUnmute = () => {
       setUnmuteButton();
   }
   else {
-      setMuteButton();
+    setMuteButton();
       localStream.getAudioTracks()[0].enabled = true;
   }
 
   
 }
 const setPlayVideo = () => {
+  /*
   const html = `
   <i class="stop fas fa-video-slash"></i>
   <span>PlayVideo</span>`
   $('.main_video_button').html(html);
+  */
+  $('#videoControl').html("videocam");
 }
 
 const setStopVideo = () => {
+  /*
   const html = `
   <i class="fas fa-video"></i>
   <span>Stop Video</span>`
   $('.main_video_button').html(html);
+  */
+  $('#videoControl').html("videocam_off");
 }
 const playStop = () => {
   let enabled = localStream.getVideoTracks()[0].enabled;
   if(enabled){
     localStream.getVideoTracks()[0].enabled = false;
-      setPlayVideo();
+    setStopVideo();
   }
   else {
-      setStopVideo();
+    setPlayVideo();
+      
       localStream.getVideoTracks()[0].enabled = true;
   }
 }
