@@ -246,3 +246,14 @@ if($('#volume').length > 0 ){
 	}
 }
 
+$(".chat-unread").on('click', function () {
+	$('.right-sidebar').addClass('hide-right-sidebar');
+	$('.right-sidebar').removeClass('hide-right-sidebar');
+	if ( $(window).width() > 991 && $(window).width() < 1201) {
+		$(".chat").css('margin-left', 0);
+	}
+	if ($(window).width() < 992) {
+		$('.chat').removeClass('hide-chatbar');
+	}
+});
+

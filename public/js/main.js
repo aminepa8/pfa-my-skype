@@ -323,3 +323,7 @@ let text = $('input');
         $('ul').append(`<li class="message"><b>user</b><br />${username} : ${message}</li>`)
         scrollToBottom();
     })
+
+
+
+    
