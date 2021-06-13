@@ -342,6 +342,7 @@ let text = $('input');
      </div>
         `)
         scrollToBottom();
+        ShakeIt();
     })
 //<li class="message"><b>user</b><br />${username} : ${message}</li>
 
@@ -351,4 +352,15 @@ let text = $('input');
     });
 
 
-    
+    ///Animation chat new
+
+  function ShakeIt(){
+
+    $('#msg_recived').addClass('shaker'); 
+
+    setTimeout(function(){
+
+    $('#msg_recived').removeClass('shaker'); 
+    },300);
+    // eve.preventDefault();
+ }
