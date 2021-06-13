@@ -2,6 +2,7 @@
 Author       : Dreamguys
 Template Name: Dreamschat - Bootstrap Chat Template
 Version      : 1.0
+Modified by Mly
 */
 
 (function($) {
@@ -272,7 +273,7 @@ $(".chat-unread").on('click', function () {
 		$(".chat").css('margin-left', 0);
 	}
 	if ($(window).width() < 992) {
-		alert("less");
+	//	alert("less");
 		$('.chat').removeClass('hide-chatbar');
 		animatethis($('.main-wrapper'), 1500);
 	}
