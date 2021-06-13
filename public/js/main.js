@@ -310,20 +310,28 @@ const scrollToBottom = () => {
   let d = $('.slimscroll');
   d.scrollTop(d.prop("scrollHeight"));
 }
-let text = $('input');
+var text = $('input');
+const SendMsg = () => {
+if( text.val().length !== 0){
+  socket.emit('messageChat',{ roomname: this.room,username: this.username, message: text.val() } );
+  console.log(text.val());
+  text.val('')
+}
+
+}
+
     $('html').keydown(e => {
         if (e.which == 13 && text.val().length !== 0) {
-            socket.emit('messageChat',{ roomname: this.room,username: this.username, message: text.val() } );
-            console.log(text.val());
-            text.val('')
+          SendMsg();
         }
     });
+    
 
     socket.on('createMessage', ({username,message}) => {
       var d = new Date();
       var hours = d.getHours();
       var minutes = d.getMinutes();
-      var ChatClass = (this.username !== username) ? "chats-right" : "";
+      var ChatClass = (this.username !== username) ? "" : "chats-right";
         $('.messages').append(`
         <div class="chats ${ChatClass}">
         <div class="chat-content">
