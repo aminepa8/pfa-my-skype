@@ -307,7 +307,7 @@ const playStop = () => {
 
 //Chat Section
 const scrollToBottom = () => {
-  let d = $('main_chat_window');
+  let d = $('.slimscroll');
   d.scrollTop(d.prop("scrollHeight"));
 }
 let text = $('input');
@@ -320,10 +320,35 @@ let text = $('input');
     });
 
     socket.on('createMessage', ({username,message}) => {
-        $('ul').append(`<li class="message"><b>user</b><br />${username} : ${message}</li>`)
+      var d = new Date();
+      var hours = d.getHours();
+      var minutes = d.getMinutes();
+      var ChatClass = (this.username !== username) ? "chats-right" : "";
+        $('.messages').append(`
+        <div class="chats ${ChatClass}">
+        <div class="chat-content">
+           <div class="message-content">
+           ${message}
+              <div class="chat-time">
+                 <div>
+                    <div class="time"><i class="fas fa-clock"></i> ${hours}:${minutes}</div>
+                 </div>
+              </div>
+           </div>
+           <div class="chat-profile-name">
+              <h6>${username} </h6>
+           </div>
+        </div>
+     </div>
+        `)
         scrollToBottom();
     })
+//<li class="message"><b>user</b><br />${username} : ${message}</li>
 
+    $( "#chatForm" ).submit(function( event ) {
+      //alert( "Handler for .submit() called." );
+      event.preventDefault();
+    });
 
 
     

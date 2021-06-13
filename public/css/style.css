@@ -7013,5 +7013,9 @@ p:last-child {
 
 		}
 	}
+	.slimscroll{
+		overflow-y: auto !important; 
+		position: relative;
+	}
 
 
