@@ -117,7 +117,7 @@ function gotStream(stream) {
   if (isInitiator) {
     maybeStart();
         //Mute and hide video after getting UserMedia
-    console.log("Wee3");
+    console.log("Lool stop video");
     playStop();
     muteUnmute();
   }
