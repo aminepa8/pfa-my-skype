@@ -245,15 +245,35 @@ if($('#volume').length > 0 ){
 	    myMedia.volume = myVolume;
 	}
 }
+function animatethis(targetElement, speed) {
+    var scrollWidth = $(targetElement).get(0).scrollWidth;
+    var clientWidth = $(targetElement).get(0).clientWidth;
+    $(targetElement).animate({ scrollLeft: scrollWidth - clientWidth },
+    {
+        duration: speed,
+        
+		/*complete: function () {
+            targetElement.animate({ scrollLeft: 0 },
+            {/*
+                duration: speed,
+                complete: function () {
+                    animatethis(targetElement, speed);
+                }
+            });
+        }
+		*/
+    });
+};
 
 $(".chat-unread").on('click', function () {
-	$('.right-sidebar').addClass('hide-right-sidebar');
+	$('.right-sidebar').addClass('show-right-sidebar');
 	$('.right-sidebar').removeClass('hide-right-sidebar');
 	if ( $(window).width() > 991 && $(window).width() < 1201) {
 		$(".chat").css('margin-left', 0);
 	}
 	if ($(window).width() < 992) {
+		alert("less");
 		$('.chat').removeClass('hide-chatbar');
+		animatethis($('.main-wrapper'), 1500);
 	}
 });
-
