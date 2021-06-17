@@ -63,14 +63,35 @@
         flex: 1 1;
       }
     </style>
+    	<!-- jQuery -->
+      <script src="\js\jquery-3.5.1.min.js"></script>
     <script>
       function Join() {
-        var roomName = document.getElementById("roomName").value;
-        var username = document.getElementById("username").value;
-        if(roomName =="" || username==""){
+        let username = $('#username').val();
+        let roomName = $('#roomName').val();
+        let roomPassword = $('#roomPassword').val();
+
+        if(roomName =="" || username==""|| roomPassword==""){
             alert("Please fill all the fileds !!");
         }else{
-            window.location = '/chatNew/'+roomName+'/'+username;
+          $.ajax({
+        type: "POST",
+        url: "/chat",
+        data: JSON.stringify( {"username": username, "roomName": roomName, "password": roomPassword} ),
+        success: function(resp) {
+            if(resp.status) {
+                //alert("password status : "+resp.status);
+               // alert("data  status : "+resp.data.roomName);
+                sessionStorage.setItem("user", JSON.stringify(resp.data));
+                window.location = "/chat";
+
+            }else{
+              alert(" room password is wrong ");
+            }
+        },
+        dataType: "json",
+        contentType: "application/json"
+      });
         }
         
       }
@@ -83,8 +104,9 @@
       <div class="App">
         <div class="homepage">
           <h1>Welcome 🙏</h1>
-          <input id="username" placeholder="Enter your username" value="" />
+          <input id="username" placeholder="Enter your username"/>
           <input id="roomName" placeholder="Enter room name " />
+          <input id="roomPassword" placeholder="Enter room password " type="password" />
           <button onclick="Join()">Join</button>
         </div>
       </div>

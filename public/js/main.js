@@ -1,5 +1,10 @@
 'use strict';
-
+if (sessionStorage.length == 0) {
+  console.log("sessionStorage.length :  " + sessionStorage.length);
+  //alert("operation not allowed");
+  window.location ="/";
+}
+console.log("sessionStorage.length :  " + sessionStorage.length);
 //Defining some global utility variables
 var isChannelReady = false;
 var isInitiator = false;
@@ -21,18 +26,19 @@ var localStreamConstraints = {
 //Not prompting for room name
 //var room = 'foo';
 
-// Prompting for room name:
-var link =window.location.pathname;
-var arrayParam = link.split("/");
-var room = arrayParam[2]; //prompt('Enter room name:');
-var username =arrayParam[3];   //prompt('Enter a username:');
+// Getting data from session storage :
+var data = JSON.parse(sessionStorage.getItem('user'));
+var room = data.roomName;
+var username = data.username; 
+var password = data.password; 
+console.log( "data from session storeage "+ data.roomName);
 $( "#chatRoomName" ).append( room);
-$( "#chatusername" ).append( username);
-
+$( "#chatusername" ).append( username); 
+$( "#roomPasswordLabel" ).append( password);
 //Initializing socket.io
 var socket = io.connect();
 
-if (room !== '') {
+if (room !== '' & room !==null) {
   socket.emit('create or join', room);
   console.log('Attempted to create or  join room', room);
 }
@@ -217,6 +223,7 @@ function handleRemoteStreamRemoved(event) {
 
 function hangup() {
   console.log('Hanging up.');
+  sessionStorage.clear();
   stop();
   sendMessage('bye',room);
   window.location.href ="/";
@@ -232,9 +239,11 @@ function handleRemoteHangup() {
 
 function stop() {
   isStarted = false;
+  if(typeof pc !== 'undefined'){
   if(pc !==null){
     pc.close();
   }
+}
   pc = null;
 }
 

@@ -9,7 +9,9 @@ var app = express();
 var https = require('https');
 //For signalling in WebRTC
 var socketIO = require('socket.io');
-
+var bodyParser = require('body-parser'); 
+//Rooms Array
+let rooms = {}
 //self signed ssl
 var options = {
     key: fs.readFileSync('certificates/key.pem', 'utf8'),
@@ -19,18 +21,49 @@ var options = {
 };
 
 app.use(express.static('public'))
-
+app.use(bodyParser.json())
 app.get("/", function(req, res){
 	res.render("index.ejs");
 });
 
+function CheckRoomPass (username, room, password) {
+	if (!rooms[room] || (rooms[room] && !rooms[room].password)) {
+		if (!rooms[room]) {
+			rooms[room] = {};
+		}
+		rooms[room].password = password;
+		//rooms[room][socketId] = username;
+		//rooms[socketId] = room;
+		return true;
+	} else {
+		if (rooms[room].password == password) {
+			//rooms[socketId] = room;
+			//rooms[room][socketId] = username;
+			//socket.join(room);
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
 //Test NewChat style
-app.get("/chatNew/:roomName/:username", function(req, res){
-	res.render("chatNew.ejs"),{roomName: req.params.roomName, username: req.params.username};
+app.post("/chat", function(req, res){
+	
+	if(CheckRoomPass(req.body.username, req.body.roomName, req.body.password)) {
+		console.log('Client said: ', req.body.roomName);
+		console.log('Client said: ', req.body.username);
+		console.log('Client said: ', req.body.password);
+		res.send({status:true, data:{roomName:req.body.roomName, username:req.body.username, password:req.body.password}})
+
+	} else {
+		res.send({status:false})
+	}
+	//res.render("chatNew.ejs"),{roomName: req.params.roomName, username: req.params.username};
 });
-app.get("/chat/:roomName/:username", function(req, res){
-	res.render("chat.ejs"),{roomName: req.params.roomName, username: req.params.username};
+app.get("/chat", function(req, res){
+	res.render("chatNew.ejs");
 });
+
 
 
 var server = https.createServer(options,app);
