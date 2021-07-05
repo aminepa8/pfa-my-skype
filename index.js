@@ -90,7 +90,13 @@ io.sockets.on('connection', function(socket) {
 	  // for a real app, would be room-only (not broadcast)
 	  socket.in(room).emit('message', message, room);
 	});
-  
+  //PublicKey Order to exchange Step3
+	 socket.on('exchangePubKeys', ({ PublicKey, room }) =>{
+		
+		socket.in(room).emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room});
+		
+	  });
+
 	socket.on('create or join', function(room) {
 	  log('Received request to create or join room ' + room);
   
@@ -108,6 +114,8 @@ io.sockets.on('connection', function(socket) {
 		io.sockets.in(room).emit('join', room);
 		socket.join(room);
 		socket.emit('joined', room, socket.id);
+		//Exchange Key signal step1
+		socket.emit('StartPublicKeysExchange',room);
 		io.sockets.in(room).emit('ready');
 	  } else { // max two clients
 		socket.emit('full', room);

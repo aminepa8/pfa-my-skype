@@ -13,6 +13,8 @@ var localStream;
 var pc;
 var remoteStream;
 var turnReady;
+var PublicKey;
+var Privatekey;
 
 //Initialize turn/stun server here
 var pcConfig = null;//turnConfig;
@@ -23,9 +25,20 @@ var localStreamConstraints = {
   };
 
 
-//Not prompting for room name
-//var room = 'foo';
+//Generate PairKeys
+function GeneratePairKeys() { 
+  var keySize = 1024;
+  var obj = new JSEncrypt({default_key_size: keySize});
+  obj.getKey();
+  sessionStorage.setItem('Publickey', obj.getPublicKey());
+  sessionStorage.setItem('Privatekey', obj.getPrivateKey());
+  PublicKey = obj.getPublicKey();
+  console.log("My Public Key");
 
+  console.log(PublicKey);
+  //console.log(obj.getPrivateKey());
+
+ }
 // Getting data from session storage :
 var data = JSON.parse(sessionStorage.getItem('user'));
 var room = data.roomName;
@@ -39,6 +52,7 @@ $( "#roomPasswordLabel" ).append( password);
 var socket = io.connect();
 
 if (room !== '' & room !==null) {
+  GeneratePairKeys();
   socket.emit('create or join', room);
   console.log('Attempted to create or  join room', room);
 }
@@ -92,8 +106,22 @@ socket.on('message', function(message, room) {
       handleRemoteHangup();
     }
 });
-  
+  //Step 2 ExchangeKeys Process
+socket.on('StartPublicKeysExchange',function(room){
+  console.log("Step 2 ExchangeKeys Process :");
+  console.log("Local Pub Key :");
+  console.log(PublicKey);
+  socket.emit('exchangePubKeys', {PublicKey:PublicKey, room:room});
+  console.log("End Step2");
+});
+//Step 3 ExchangeKeys Process in server
 
+//Step 4 ExchangeKeys Process
+socket.on('ExchangePublicKeyNow',({ PublicKey, room }) =>{
+  console.log("Remote User PublicKey");
+  console.log(PublicKey);
+  //socket.emit('exchangePubKeys', PublicKey, room);
+});
 
 //Function to send message in a room
 function sendMessage(message, room) {
@@ -381,3 +409,4 @@ if( text.val().length !== 0){
     },300);
     // eve.preventDefault();
  }
+
