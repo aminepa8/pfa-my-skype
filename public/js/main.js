@@ -15,6 +15,7 @@ var remoteStream;
 var turnReady;
 var PublicKey;
 var Privatekey;
+var RemotePublicKey;
 
 //Initialize turn/stun server here
 var pcConfig = null;//turnConfig;
@@ -39,6 +40,20 @@ function GeneratePairKeys() {
   //console.log(obj.getPrivateKey());
 
  }
+ //Encrypt Func
+ function Encrypt(publicKey,ClearMessage) {
+    var encrypt = new JSEncrypt();
+    encrypt.setPublicKey(publicKey);
+    var encodedMessage = encrypt.encrypt(ClearMessage);
+    return encodedMessage ;
+  }
+//Decrypt Func
+function Decrypt(privateKey,CipherMessage) {
+  var decrypt = new JSEncrypt();
+  decrypt.setPrivateKey(privateKey);
+  var decodedMessage = decrypt.decrypt(CipherMessage);
+  return decodedMessage ;
+}
 // Getting data from session storage :
 var data = JSON.parse(sessionStorage.getItem('user'));
 var room = data.roomName;
@@ -116,11 +131,13 @@ socket.on('StartPublicKeysExchange',function(room){
 });
 //Step 3 ExchangeKeys Process in server
 
-//Step 4 ExchangeKeys Process
+//Step 4 ExchangeKeys Process finall
 socket.on('ExchangePublicKeyNow',({ PublicKey, room }) =>{
+  console.log("Step 4");
   console.log("Remote User PublicKey");
-  console.log(PublicKey);
-  //socket.emit('exchangePubKeys', PublicKey, room);
+  RemotePublicKey= PublicKey;
+  console.log(RemotePublicKey);
+  //socket.emit('exchangePubKeys', this.PublicKey, room);
 });
 
 //Function to send message in a room
@@ -350,7 +367,9 @@ const scrollToBottom = () => {
 var text = $('input');
 const SendMsg = () => {
 if( text.val().length !== 0){
-  socket.emit('messageChat',{ roomname: this.room,username: this.username, message: text.val() } );
+  var ClearMessage=text.val();
+ var EncryptedMessage = Encrypt(RemotePublicKey,ClearMessage);
+  socket.emit('messageChat',{ roomname: this.room,username: this.username, message: EncryptedMessage} );
   console.log(text.val());
   text.val('')
 }

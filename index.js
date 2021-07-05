@@ -92,9 +92,9 @@ io.sockets.on('connection', function(socket) {
 	});
   //PublicKey Order to exchange Step3
 	 socket.on('exchangePubKeys', ({ PublicKey, room }) =>{
-		
-		socket.in(room).emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room});
-		
+		console.log("Step3");
+		//socket.in(room).emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room});
+		socket.emit('ExchangePublicKeyNow',{PublicKey:PublicKey, room :room});
 	  });
 
 	socket.on('create or join', function(room) {
@@ -115,7 +115,8 @@ io.sockets.on('connection', function(socket) {
 		socket.join(room);
 		socket.emit('joined', room, socket.id);
 		//Exchange Key signal step1
-		socket.emit('StartPublicKeysExchange',room);
+		//socket.emit('StartPublicKeysExchange',room);
+		io.to(room).emit('StartPublicKeysExchange');
 		io.sockets.in(room).emit('ready');
 	  } else { // max two clients
 		socket.emit('full', room);
