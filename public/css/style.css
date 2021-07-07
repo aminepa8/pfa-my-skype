@@ -1450,7 +1450,7 @@ ul.list-inline .list-inline-item {
 	-ms-transition: all .5s ease;
 	width: 100%;
 	padding: 0px 10px 0px 15px;
-	background-image: url(https://dreamschat.dreamguystech.com/template2/assets/img/chat-bg.png);
+	background-image: url(img\chat-bg.png);
 	background-repeat: repeat;
 	height: 100%;
 }
@@ -4502,12 +4502,7 @@ i.fas.fa-ellipsis-h.ellipse_header {
 }
 
 .video-screen-inner {
-	/*
-	background-image: url("https://dreamschat.dreamguystech.com/template2/assets/img/vidio-call-bg.jpg");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	*/
+
 	width: 100%;
 	height: calc(100vh - 130px);
 	border-radius: 10px;

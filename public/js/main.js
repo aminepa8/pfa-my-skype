@@ -442,3 +442,4 @@ if( text.val().length !== 0){
     // eve.preventDefault();
  }
 
+//Useful https://www.codegrepper.com/code-examples/javascript/broadcast+to+specific+room+in+socketio
