@@ -16,7 +16,7 @@ var turnReady;
 var PublicKey;
 var Privatekey;
 var RemotePublicKey;
-
+var LocalMessage;
 //Initialize turn/stun server here
 var pcConfig = null;//turnConfig;
 
@@ -33,6 +33,7 @@ function GeneratePairKeys() {
   obj.getKey();
   sessionStorage.setItem('Publickey', obj.getPublicKey());
   sessionStorage.setItem('Privatekey', obj.getPrivateKey());
+  Privatekey=  obj.getPrivateKey();
   PublicKey = obj.getPublicKey();
   console.log("My Public Key");
 
@@ -49,9 +50,13 @@ function GeneratePairKeys() {
   }
 //Decrypt Func
 function Decrypt(privateKey,CipherMessage) {
+  console.log(privateKey);
+  console.log("Cipher Text : ");
+  console.log(CipherMessage);
   var decrypt = new JSEncrypt();
   decrypt.setPrivateKey(privateKey);
   var decodedMessage = decrypt.decrypt(CipherMessage);
+  console.log(decodedMessage);
   return decodedMessage ;
 }
 // Getting data from session storage :
@@ -126,17 +131,20 @@ socket.on('StartPublicKeysExchange',function(room){
   console.log("Step 2 ExchangeKeys Process :");
   console.log("Local Pub Key :");
   console.log(PublicKey);
-  socket.emit('exchangePubKeys', {PublicKey:PublicKey, room:room});
+  socket.emit('exchangePubKeys', {PublicKey:PublicKey, room:room,username:username});
   console.log("End Step2");
 });
 //Step 3 ExchangeKeys Process in server
 
 //Step 4 ExchangeKeys Process finall
-socket.on('ExchangePublicKeyNow',({ PublicKey, room }) =>{
+socket.on('ExchangePublicKeyNow',({ PublicKey, room ,username}) =>{
   console.log("Step 4");
   console.log("Remote User PublicKey");
-  RemotePublicKey= PublicKey;
-  console.log(RemotePublicKey);
+  //if(this.username.localeCompare(username) == 0){
+    RemotePublicKey= PublicKey;
+    console.log(RemotePublicKey);
+  //}
+
   //socket.emit('exchangePubKeys', this.PublicKey, room);
 });
 
@@ -368,6 +376,7 @@ var text = $('input');
 const SendMsg = () => {
 if( text.val().length !== 0){
   var ClearMessage=text.val();
+  LocalMessage=ClearMessage;
  var EncryptedMessage = Encrypt(RemotePublicKey,ClearMessage);
   socket.emit('messageChat',{ roomname: this.room,username: this.username, message: EncryptedMessage} );
   console.log(text.val());
@@ -384,15 +393,19 @@ if( text.val().length !== 0){
     
 
     socket.on('createMessage', ({username,message}) => {
+
       var d = new Date();
       var hours = d.getHours();
       var minutes = d.getMinutes();
       var ChatClass = (this.username !== username) ? "" : "chats-right";
+      var decodedMessage = Decrypt(Privatekey,message);
+      console.log("decodedMessage : "+decodedMessage);
+      var messageToShow = (this.username == username) ? LocalMessage : decodedMessage;
         $('.messages').append(`
         <div class="chats ${ChatClass}">
         <div class="chat-content">
            <div class="message-content">
-           ${message}
+           ${messageToShow}
               <div class="chat-time">
                  <div>
                     <div class="time"><i class="fas fa-clock"></i> ${hours}:${minutes}</div>

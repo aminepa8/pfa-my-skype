@@ -91,10 +91,16 @@ io.sockets.on('connection', function(socket) {
 	  socket.in(room).emit('message', message, room);
 	});
   //PublicKey Order to exchange Step3
-	 socket.on('exchangePubKeys', ({ PublicKey, room }) =>{
+	 socket.on('exchangePubKeys', ({ PublicKey, room ,username}) =>{
+		 
 		console.log("Step3");
-		//socket.in(room).emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room});
-		socket.emit('ExchangePublicKeyNow',{PublicKey:PublicKey, room :room});
+		console.log(PublicKey);
+		//socket.in(room).emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room,username:username});
+		socket.broadcast.emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room,username:username});
+		//socket.broadcast.to('room').emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room,username:username});
+		//io.to(room).emit('StartPublicKeysExchange');
+		//io.to(room).emit('ExchangePublicKeyNow', {PublicKey:PublicKey, room :room,username:username});
+		//socket.emit('ExchangePublicKeyNow',{PublicKey:PublicKey, room :room,username:username});
 	  });
 
 	socket.on('create or join', function(room) {
